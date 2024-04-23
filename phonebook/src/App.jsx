@@ -27,7 +27,7 @@ const App = () => {
       }
     });
     personService.create(nameObj).then((returnedPerson) => {
-      console.log(persons);
+      console.log(returnedPerson);
       setPersons(persons.concat(nameObj));
       setNewName("");
       setNewNumber("");
@@ -53,6 +53,15 @@ const App = () => {
     });
     setFilteredName(filtered);
     setSearchQuery("");
+  };
+
+  const handleDeletePerson = () => {
+    persons.forEach((person, index) => {
+      console.log(person.id, index);
+    });
+    // personService.deletePerson(eachPerson.id).then((deletedPerson) => {
+    //   console.log(deletedPerson);
+    // });
   };
 
   return (
@@ -87,6 +96,7 @@ const App = () => {
         {persons.map((person) => (
           <li key={person.name}>
             {person.name}: {person.number}
+            <button onClick={handleDeletePerson}>Delete</button>
           </li>
         ))}
       </ul>
