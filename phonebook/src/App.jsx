@@ -55,13 +55,11 @@ const App = () => {
     setSearchQuery("");
   };
 
-  const handleDeletePerson = () => {
-    persons.forEach((person, index) => {
-      console.log(person.id, index);
+  const handleDeletePerson = (id) => {
+    personService.deletePerson(id).then((deletedPerson) => {
+      alert(`Delete ${deletedPerson.name} from the phonebook?  `);
+      console.log(deletedPerson);
     });
-    // personService.deletePerson(eachPerson.id).then((deletedPerson) => {
-    //   console.log(deletedPerson);
-    // });
   };
 
   return (
@@ -96,7 +94,9 @@ const App = () => {
         {persons.map((person) => (
           <li key={person.name}>
             {person.name}: {person.number}
-            <button onClick={handleDeletePerson}>Delete</button>
+            <button onClick={() => handleDeletePerson(person.id)}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
