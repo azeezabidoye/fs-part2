@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Notification from "./components/Notification";
 import personService from "./services/persons";
 
 const App = () => {
@@ -7,6 +8,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredNames, setFilteredName] = useState([]);
+  const [alertMsg, setAlertMsg] = useState(null);
 
   const hook = () => {
     personService.getAll().then((initialPerson) => setPersons(initialPerson));
@@ -29,8 +31,12 @@ const App = () => {
     personService.create(nameObj).then((returnedPerson) => {
       console.log(returnedPerson);
       setPersons(persons.concat(nameObj));
+      setAlertMsg(`${returnedPerson.name} added successfully 🎉`);
       setNewName("");
       setNewNumber("");
+      setTimeout(() => {
+        setAlertMsg(null);
+      }, 5000);
     });
   };
 
@@ -65,6 +71,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={alertMsg} />
       <form onSubmit={handleSearch}>
         <div>
           Find name: <input value={searchQuery} onChange={handleSearchName} />
